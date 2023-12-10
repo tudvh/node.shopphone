@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thiết lập về tôi - Shop Phone Admin</title>
+    <%- include('../include/_css') %>
+  </head>
+
+  <body class="sidebar-mini layout-navbar-fixed">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <%- include('../include/_header') %>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <%- include('../include/_sidebar') %>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header py-4"></section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="card">
+            <div class="card-body">
+              <form method="POST">
+                <h1 class="fw-bold" style="font-size: 1.8rem">Thiết lập về tôi</h1>
+
+                <div class="row">
+                  <% if (errorPersonal.length > 0) { %>
+                  <div class="col-12">
+                    <div class="alert alert-danger"><%= errorPersonal %></div>
+                  </div>
+                  <% } %>
+                  <!-- -->
+                  <% if (successPersonal.length > 0) { %>
+                  <div class="col-12">
+                    <div class="alert alert-success"><%= successPersonal %></div>
+                  </div>
+                  <% } %>
+
+                  <div class="col-12 d-flex justify-content-end">
+                    <input class="btn btn-success" type="submit" value="Lưu thay đổi" />
+                  </div>
+
+                  <div class="col-12 col-md-6 mt-3">
+                    <div class="form-group">
+                      <label for="full_name" class="form-label fw-bold">
+                        Họ và tên <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="full_name"
+                        name="fullName"
+                        placeholder="Nhập họ và tên"
+                        value="<%= user.fullName %>"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 mt-3">
+                    <div class="form-group">
+                      <label for="email" class="form-label fw-bold">
+                        Email <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="Nhập email"
+                        value="<%= user.email  %>"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 mt-3">
+                    <div class="form-group">
+                      <label for="username" class="form-label fw-bold">Username</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        value="<%= user.username  %>"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <hr class="my-5" />
+
+              <form action="/change-password" method="POST">
+                <div class="row mb-5">
+                  <h1 class="fw-bold" style="font-size: 1.8rem">Thiết lập mật khẩu mới</h1>
+
+                  <% if (errorPassword.length > 0) { %>
+                  <div class="col-12">
+                    <div class="alert alert-danger"><%= errorPassword %></div>
+                  </div>
+                  <% } %>
+                  <!-- -->
+                  <% if (successPassword.length > 0) { %>
+                  <div class="col-12">
+                    <div class="alert alert-success"><%= successPassword %></div>
+                  </div>
+                  <% } %>
+
+                  <div class="col-12 d-flex justify-content-end">
+                    <input class="btn btn-success" type="submit" value="Lưu thay đổi" />
+                  </div>
+
+                  <div class="col-12 col-md-4 mt-4">
+                    <div class="form-group">
+                      <label for="password_old" class="form-label fw-bold">
+                        Mật khẩu cũ <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password_old"
+                        name="passwordOld"
+                        placeholder="Nhập mật khẩu cũ"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4 mt-4">
+                    <div class="form-group">
+                      <label for="password_new" class="form-label fw-bold">
+                        Mật khẩu mới <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password_new"
+                        name="passwordNew"
+                        placeholder="Nhập mật khẩu mới"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4 mt-4">
+                    <div class="form-group">
+                      <label for="password_new_confirm" class="form-label fw-bold">
+                        Xác nhận mật khẩu mới <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password_new_confirm"
+                        name="passwordNewConfirm"
+                        placeholder="Nhập mật khẩu xác nhận mới"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <%- include('../include/_footer') %>
+    </div>
+
+    <%- include('../include/_js') %>
+  </body>
+</html>

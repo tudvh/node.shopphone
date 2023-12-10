@@ -1,0 +1,115 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="." class="brand-link">
+    <img
+      src="dist/img/AdminLTELogo.png"
+      alt="Shop Phone Admin"
+      class="brand-image img-circle elevation-3"
+      style="opacity: 0.8"
+    />
+    <span class="brand-text font-weight-bold">SHOP PHONE ADMIN</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img
+          src="<%= session.user.avatar || 'dist/img/user-avatar-default.png' %>"
+          class="img-circle elevation-2"
+          alt="User Image"
+        />
+      </div>
+      <div class="info">
+        <a href="/personal" class="d-block"><%= session.user.fullName %></a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+        <li class="nav-item">
+          <a
+            href="."
+            class="nav-link <%= typeof page !== 'undefined' && page=='banners' && 'active' %>"
+          >
+            <% if (typeof page !== 'undefined' && page=='banners') { %>
+            <i class="nav-icon fa-sharp fa-solid fa-images"></i>
+            <% } else { %>
+            <i class="nav-icon fa-sharp fa-light fa-images"></i>
+            <% } %>
+            <p>Banner</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#"
+            class="nav-link <%= typeof page !== 'undefined' && page=='categories' && 'active' %>"
+          >
+            <% if (typeof page !== 'undefined' && page=='categories') { %>
+            <i class="nav-icon fa-solid fa-list"></i>
+            <% } else { %>
+            <i class="nav-icon fa-light fa-list"></i>
+            <% } %>
+            <p>Danh mục</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#"
+            class="nav-link <%= typeof page !== 'undefined' && page=='brands' && 'active' %>"
+          >
+            <% if (typeof page !== 'undefined' && page=='brands') { %>
+            <i class="nav-icon fa-solid fa-tags"></i>
+            <% } else { %>
+            <i class="nav-icon fa-light fa-tags"></i>
+            <% } %>
+            <p>Thương hiệu</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#"
+            class="nav-link <%= typeof page !== 'undefined' && page=='products' && 'active' %>"
+          >
+            <% if (typeof page !== 'undefined' && page=='products') { %>
+            <i class="nav-icon fa-solid fa-laptop-mobile"></i>
+            <% } else { %>
+            <i class="nav-icon fa-sharp fa-light fa-laptop-mobile"></i>
+            <% } %>
+            <p>Sản phẩm</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#"
+            class="nav-link <%= typeof page !== 'undefined' && page=='customers' && 'active' %>"
+          >
+            <% if (typeof page !== 'undefined' && page=='customers') { %>
+            <i class="nav-icon fa-solid fa-users"></i>
+            <% } else { %>
+            <i class="nav-icon fa-light fa-users"></i>
+            <% } %>
+            <p>Khách hàng</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/logout" class="nav-link">
+            <i class="nav-icon fa-light fa-right-from-bracket"></i>
+            <p>Đăng xuất</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
