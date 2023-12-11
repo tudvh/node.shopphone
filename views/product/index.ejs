@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sản phẩm - Shop Phone Admin</title>
+    <%- include('../include/_css') %>
+    <style>
+      th,
+      td {
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body class="sidebar-mini layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <%- include('../include/_header') %>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <%- include('../include/_sidebar') %>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Danh sách sản phẩm</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item active">Sản phẩm</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-column gap-4">
+                <% if (success.length > 0) { %>
+                <div class="col-12">
+                  <div class="alert alert-success"><%= success %></div>
+                </div>
+                <% } %>
+
+                <div>
+                  <a
+                    href="/products/create"
+                    class="btn btn-success d-flex justify-content-center align-items-center gap-2 ms-auto"
+                    style="width: fit-content"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Thêm mới</span>
+                  </a>
+                </div>
+
+                <form class="row gap-3 gap-md-0">
+                  <div class="col-12 col-md-auto">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="searchKey"
+                      placeholder="Tìm kiếm..."
+                      value="<%= searchKey %>"
+                    />
+                  </div>
+                  <div class="col-12 col-md-auto">
+                    <select class="form-select" name="searchCategory">
+                      <option value="">---Tất cả danh mục---</option>
+                      <% categories.forEach(category => { %>
+                      <option value="<%= category._id %>" <%= searchCategory == category._id && 'selected' %>><%= category.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-auto">
+                    <select class="form-select" name="searchBrand">
+                      <option value="">---Tất cả thương hiệu---</option>
+                      <% brands.forEach(brand => { %>
+                      <option value="<%= brand._id %>" <%= searchBrand == brand._id && 'selected' %>><%= brand.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-auto">
+                    <select class="form-select" name="sort">
+                      <option value="date" <%= sort == 'date' && 'selected' %>>Mới nhất</option>
+                      <option value="price-desc" <%= sort == 'price-desc' && 'selected' %>>Giá cao đến thấp</option>
+                      <option value="price-esc" <%= sort == 'price-esc' && 'selected' %>>Giá thấp đến cao</option>                      
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-auto">
+                    <button type="submit" class="btn btn-success">Tìm kiếm</button>
+                  </div>
+                  <div class="col-12 col-md-auto">
+                    <a href="/products" class="btn btn-primary">Làm mới</a>
+                  </div>
+                </form>
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle m-0">
+                    <thead class="table-secondary">
+                      <tr>
+                        <th>Id</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Thương hiệu</th>
+                        <th>Đơn giá</th>
+                        <th>Chế độ hiển thị</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% products.forEach(product => { %>
+                      <tr>
+                        <th><%= product._id %></th>
+                        <th>
+                          <img
+                            src="<%= product.imageUrl %>"
+                            style="height: 100px; border-radius: 5px"
+                          />
+                        </th>
+                        <td><%= product.name %></td>
+                        <td><%= product.category.name %></td>
+                        <td><%= product.brand.name %></td>
+                        <td><%= product.price.toLocaleString('vi-VI') %>đ</td>
+                        <td><%= product.status ? 'Công khai' : 'Riêng tư' %></td>
+                        <td>
+                          <a
+                            class="btn btn-primary"
+                            title="Chỉnh sửa"
+                            href="/products/<%= product._id %>/edit"
+                          >
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+
+                <nav aria-label="navigation">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item <%= currentPage == 1 ? 'disabled' : ''%>">
+                      <button
+                        type="button"
+                        class="page-link"
+                        href="#"
+                        onclick="redirect('<%= currentPage != 1 ? currentPage-1 : null %>')"
+                        aria-label="Previous"
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </button>
+                    </li>
+                    <% for (i=1; i<=totalPages; i++) { %>
+                    <li class="page-item <%= currentPage == i ? 'disabled' : ''%>">
+                      <button
+                        type="button"
+                        class="page-link"
+                        onclick="redirect('<%= currentPage != i ? i : null %>')"
+                      >
+                        <%= i %>
+                      </button>
+                    </li>
+                    <% } %>
+                    <li class="page-item <%= currentPage == totalPages ? 'disabled' : ''%>">
+                      <button
+                        type="button"
+                        class="page-link"
+                        onclick="redirect('<%= currentPage != totalPages ? currentPage+1 : null %>')"
+                        aria-label="Next"
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <%- include('../include/_footer') %>
+    </div>
+
+    <%- include('../include/_js') %>
+  </body>
+</html>
+
+<script>
+  const redirect = page => {
+    if (!page) return
+
+    let currentHref = location.href
+
+    if (currentHref.includes('page=')) {
+      currentHref = currentHref.replace(/(page=)\d+/, `page=${page}`)
+    } else {
+      currentHref += (currentHref.includes('?') ? '&' : '?') + `page=${page}`
+    }
+
+    location.href = currentHref
+  }
+</script>
