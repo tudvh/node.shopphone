@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Banner - Shop Phone Admin</title>
     <%- include('../include/_css') %>
+    <style>
+      th,
+      td {
+        text-align: center;
+      }
+    </style>
   </head>
 
   <body class="sidebar-mini layout-navbar-fixed">
@@ -36,7 +42,98 @@
         </section>
 
         <!-- Main content -->
-        <section class="content"></section>
+        <section class="content">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-column gap-4">
+                <% if (success.length > 0) { %>
+                <div class="col-12">
+                  <div class="alert alert-success"><%= success %></div>
+                </div>
+                <% } %>
+
+                <div>
+                  <a
+                    href="/banners/create"
+                    class="btn btn-success d-flex justify-content-center align-items-center gap-2 ms-auto"
+                    style="width: fit-content"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Thêm mới</span>
+                  </a>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle m-0">
+                    <thead class="table-secondary">
+                      <tr>
+                        <th>Id</th>
+                        <th>Hình ảnh</th>
+                        <th>Chế độ hiển thị</th>
+                        <th>Ngày tạo</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% banners.forEach(banner => { %>
+                      <tr>
+                        <th><%= banner._id %></th>
+                        <td>
+                          <img src="<%= banner.url %>" style="height: 80px; border-radius: 5px" />
+                        </td>
+                        <td><%= banner.status ? 'Công khai' : 'Riêng tư' %></td>
+                        <td><%= banner.created_at %></td>
+                        <td>
+                          <a
+                            class="btn btn-primary"
+                            title="Chỉnh sửa"
+                            href="/banners/<%= banner._id %>/edit"
+                          >
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+
+                <nav aria-label="navigation">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item <%= currentPage == 1 ? 'disabled' : ''%>">
+                      <a
+                        class="page-link"
+                        href="<%= currentPage != 1 ? `/banners?page=${currentPage-1}` : ''%>"
+                        aria-label="Previous"
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <% for (i=1; i<=totalPages; i++) { %>
+                    <li class="page-item <%= currentPage == i ? 'disabled' : ''%>">
+                      <a
+                        class="page-link"
+                        href="<%= currentPage != i ? `/banners?page=${i}` : ''%>"
+                      >
+                        <%= i %>
+                      </a>
+                    </li>
+                    <% } %>
+                    <li class="page-item <%= currentPage == totalPages ? 'disabled' : ''%>">
+                      <a
+                        class="page-link"
+                        href="<%= currentPage != totalPages ? `/banners?page=${currentPage+1}` : ''%>"
+                        aria-label="Next"
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->

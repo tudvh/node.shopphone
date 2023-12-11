@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="." class="brand-link">
+  <a href="/" class="brand-link">
     <img
-      src="dist/img/AdminLTELogo.png"
+      src="/dist/img/AdminLTELogo.png"
       alt="Shop Phone Admin"
       class="brand-image img-circle elevation-3"
       style="opacity: 0.8"
@@ -16,7 +16,7 @@
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
         <img
-          src="<%= session.user.avatar || 'dist/img/user-avatar-default.png' %>"
+          src="<%= session.user.avatar || '/dist/img/user-avatar-default.png' %>"
           class="img-circle elevation-2"
           alt="User Image"
         />
@@ -38,7 +38,7 @@
            with font-awesome or any other icon font library -->
         <li class="nav-item">
           <a
-            href="."
+            href="/"
             class="nav-link <%= typeof page !== 'undefined' && page=='banners' && 'active' %>"
           >
             <% if (typeof page !== 'undefined' && page=='banners') { %>
