@@ -16,6 +16,6 @@ var schema = new mongoose.Schema({
   },
 })
 
-const Category = mongoose.model('category', schema)
+const Brand = mongoose.model('brand', schema)
 
-module.exports = Category
+module.exports = Brand

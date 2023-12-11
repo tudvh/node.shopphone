@@ -4,10 +4,11 @@ exports.index = async (req, res) => {
   const currentPage = parseInt(req.query.page) || 1
   const limit = 2
 
-  const totalProducts = await Banner.countDocuments()
-  const totalPages = Math.ceil(totalProducts / limit)
+  const totalBrands = await Banner.countDocuments()
+  const totalPages = Math.ceil(totalBrands / limit)
 
   const banners = await Banner.find()
+    .sort({ ['_id']: 'desc' })
     .skip((currentPage - 1) * limit)
     .limit(limit)
 
