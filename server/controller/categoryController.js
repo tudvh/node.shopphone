@@ -12,7 +12,7 @@ exports.index = async (req, res) => {
     .skip((currentPage - 1) * limit)
     .limit(limit)
 
-  res.render('category/index', {
+  res.render('pages/category/index', {
     page: 'categories',
     categories,
     currentPage,
@@ -23,7 +23,7 @@ exports.index = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  res.render('category/create', { page: 'categories', error: req.flash('error') })
+  res.render('pages/category/create', { page: 'categories', error: req.flash('error') })
 }
 
 exports.store = async (req, res) => {
@@ -57,7 +57,7 @@ exports.edit = async (req, res) => {
         req.flash('error', 'Không tìm thấy danh mục')
         res.redirect('/categories')
       } else {
-        res.render('category/edit', {
+        res.render('pages/category/edit', {
           page: 'categories',
           category,
           success: req.flash('success'),

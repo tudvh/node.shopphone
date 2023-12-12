@@ -43,5 +43,9 @@ route.post('/brands/:id/edit', authMiddleware, brandController.update)
 
 // Product
 route.get('/products', authMiddleware, productController.index)
+route.get('/products/create', authMiddleware, productController.create)
+route.post('/products/create', authMiddleware, productController.store)
+route.get('/products/:id/edit', authMiddleware, productController.edit)
+route.post('/products/:id/edit', authMiddleware, productController.update)
 
 module.exports = route

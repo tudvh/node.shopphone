@@ -12,7 +12,7 @@ exports.index = async (req, res) => {
     .skip((currentPage - 1) * limit)
     .limit(limit)
 
-  res.render('brand/index', {
+  res.render('pages/brand/index', {
     page: 'brands',
     brands,
     currentPage,
@@ -23,7 +23,7 @@ exports.index = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  res.render('brand/create', { page: 'brands', error: req.flash('error') })
+  res.render('pages/brand/create', { page: 'brands', error: req.flash('error') })
 }
 
 exports.store = async (req, res) => {
@@ -57,7 +57,7 @@ exports.edit = async (req, res) => {
         req.flash('error', 'Không tìm thấy thương hiệu')
         res.redirect('/brands')
       } else {
-        res.render('brand/edit', {
+        res.render('pages/brand/edit', {
           page: 'brands',
           brand,
           success: req.flash('success'),

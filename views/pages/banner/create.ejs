@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Thêm mới danh mục - Shop Phone Admin</title>
-    <%- include('../include/_css') %>
+    <title>Thêm mới banner - Shop Phone Admin</title>
+    <%- include('../../include/_css') %>
   </head>
 
   <body class="sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
       <!-- Navbar -->
-      <%- include('../include/_header') %>
+      <%- include('../../include/_header') %>
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <%- include('../include/_sidebar') %>
+      <%- include('../../include/_sidebar') %>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -23,11 +23,11 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Thêm mới danh mục</h1>
+                <h1>Thêm mới banner</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item active"><a href="/categories">Danh mục</a></li>
+                  <li class="breadcrumb-item active"><a href="/banners">Banner</a></li>
                   <li class="breadcrumb-item active">Thêm mới</li>
                 </ol>
               </div>
@@ -48,10 +48,10 @@
 
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="name" class="form-label fw-bold">
-                        Tên danh mục <span class="text-danger">*</span>
+                      <label for="url" class="form-label fw-bold">
+                        Link hình ảnh <span class="text-danger">*</span>
                       </label>
-                      <input type="text" class="form-control" id="name" name="name" />
+                      <input type="text" class="form-control" id="url" name="url" />
                     </div>
                   </div>
 
@@ -75,9 +75,9 @@
       </div>
       <!-- /.content-wrapper -->
 
-      <%- include('../include/_footer') %>
+      <%- include('../../include/_footer') %>
     </div>
 
-    <%- include('../include/_js') %>
+    <%- include('../../include/_js') %>
   </body>
 </html>

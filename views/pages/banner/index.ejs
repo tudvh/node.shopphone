@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Thương hiệu - Shop Phone Admin</title>
-    <%- include('../include/_css') %>
+    <title>Banner - Shop Phone Admin</title>
+    <%- include('../../include/_css') %>
     <style>
       th,
       td {
@@ -16,11 +16,11 @@
   <body class="sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
       <!-- Navbar -->
-      <%- include('../include/_header') %>
+      <%- include('../../include/_header') %>
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <%- include('../include/_sidebar') %>
+      <%- include('../../include/_sidebar') %>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -29,11 +29,11 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Danh sách thương hiệu</h1>
+                <h1>Danh sách banner</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item active">Thương hiệu</li>
+                  <li class="breadcrumb-item active">Banner</li>
                 </ol>
               </div>
             </div>
@@ -54,7 +54,7 @@
 
                 <div>
                   <a
-                    href="/brands/create"
+                    href="/banners/create"
                     class="btn btn-success d-flex justify-content-center align-items-center gap-2 ms-auto"
                     style="width: fit-content"
                   >
@@ -68,24 +68,26 @@
                     <thead class="table-secondary">
                       <tr>
                         <th>Id</th>
-                        <th>Tên thương hiệu</th>
+                        <th>Hình ảnh</th>
                         <th>Chế độ hiển thị</th>
                         <th>Ngày tạo</th>
                         <th>Hành động</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% brands.forEach(brand => { %>
+                      <% banners.forEach(banner => { %>
                       <tr>
-                        <th><%= brand._id %></th>
-                        <td><%= brand.name %></td>
-                        <td><%= brand.status ? 'Công khai' : 'Riêng tư' %></td>
-                        <td><%= brand.created_at %></td>
+                        <th><%= banner._id %></th>
+                        <td>
+                          <img src="<%= banner.url %>" style="height: 80px; border-radius: 5px" />
+                        </td>
+                        <td><%= banner.status ? 'Công khai' : 'Riêng tư' %></td>
+                        <td><%= banner.created_at %></td>
                         <td>
                           <a
                             class="btn btn-primary"
                             title="Chỉnh sửa"
-                            href="/brands/<%= brand._id %>/edit"
+                            href="/banners/<%= banner._id %>/edit"
                           >
                             <i class="fa-regular fa-pen-to-square"></i>
                           </a>
@@ -101,7 +103,7 @@
                     <li class="page-item <%= currentPage == 1 ? 'disabled' : ''%>">
                       <a
                         class="page-link"
-                        href="<%= currentPage != 1 ? `/brands?page=${currentPage-1}` : ''%>"
+                        href="<%= currentPage != 1 ? `/banners?page=${currentPage-1}` : ''%>"
                         aria-label="Previous"
                       >
                         <span aria-hidden="true">&laquo;</span>
@@ -109,7 +111,10 @@
                     </li>
                     <% for (i=1; i<=totalPages; i++) { %>
                     <li class="page-item <%= currentPage == i ? 'disabled' : ''%>">
-                      <a class="page-link" href="<%= currentPage != i ? `/brands?page=${i}` : ''%>">
+                      <a
+                        class="page-link"
+                        href="<%= currentPage != i ? `/banners?page=${i}` : ''%>"
+                      >
                         <%= i %>
                       </a>
                     </li>
@@ -117,7 +122,7 @@
                     <li class="page-item <%= currentPage == totalPages ? 'disabled' : ''%>">
                       <a
                         class="page-link"
-                        href="<%= currentPage != totalPages ? `/brands?page=${currentPage+1}` : ''%>"
+                        href="<%= currentPage != totalPages ? `/banners?page=${currentPage+1}` : ''%>"
                         aria-label="Next"
                       >
                         <span aria-hidden="true">&raquo;</span>
@@ -133,9 +138,9 @@
       </div>
       <!-- /.content-wrapper -->
 
-      <%- include('../include/_footer') %>
+      <%- include('../../include/_footer') %>
     </div>
 
-    <%- include('../include/_js') %>
+    <%- include('../../include/_js') %>
   </body>
 </html>

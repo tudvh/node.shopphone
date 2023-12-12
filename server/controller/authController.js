@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const User = require('../model/User')
 
 exports.login = (req, res) => {
-  res.render('auth/login', { error: req.flash('error') })
+  res.render('pages/auth/login', { error: req.flash('error') })
 }
 
 exports.handleLogin = async (req, res) => {
@@ -30,7 +30,7 @@ exports.handleLogin = async (req, res) => {
 
 exports.personal = async (req, res) => {
   const user = await User.findOne({ _id: req.session.user.id })
-  res.render('auth/personal', {
+  res.render('pages/auth/personal', {
     user,
     errorPersonal: req.flash('errorPersonal'),
     successPersonal: req.flash('successPersonal'),

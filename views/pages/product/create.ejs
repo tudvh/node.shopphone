@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thêm mới sản phẩm - Shop Phone Admin</title>
+    <%- include('../../include/_css') %>
+  </head>
+
+  <body class="sidebar-mini layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <%- include('../../include/_header') %>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <%- include('../../include/_sidebar') %>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Thêm mới sản phẩm</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item active"><a href="/products">Sản phẩm</a></li>
+                  <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="card">
+            <div class="card-body">
+              <form method="POST">
+                <div class="d-flex flex-column gap-4">
+                  <div class="col-12 d-flex justify-content-end">
+                    <input class="btn btn-success" type="submit" value="Tạo mới" />
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="name" class="form-label fw-bold">
+                        Tên sản phẩm <span class="text-danger">*</span>
+                      </label>
+                      <input type="text" class="form-control" id="name" name="name" />
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="category" class="form-label fw-bold">
+                        Danh mục <span class="text-danger">*</span>
+                      </label>
+                      <select name="categoryId" id="category" class="form-select">
+                        <% categories.forEach(category => { %>
+                        <option value="<%= category._id %>"><%= category.name %></option>
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="brand" class="form-label fw-bold">
+                        Thương hiệu <span class="text-danger">*</span>
+                      </label>
+                      <select name="brandId" id="brand" class="form-select">
+                        <% brands.forEach(brand => { %>
+                        <option value="<%= brand._id %>"><%= brand.name %></option>
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="price" class="form-label fw-bold">
+                        Đơn giá <span class="text-danger">*</span>
+                      </label>
+                      <input type="number" class="form-control" id="price" name="price" />
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="imageUrl" class="form-label fw-bold">
+                        Link hình ảnh <span class="text-danger">*</span>
+                      </label>
+                      <input type="text" class="form-control" id="imageUrl" name="imageUrl" />
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="status" class="form-label fw-bold">
+                        Chế độ hiển thị <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-select" id="status" name="status" required>
+                        <option value="1">Công khai</option>
+                        <option value="0">Riêng tư</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <%- include('../../include/_footer') %>
+    </div>
+
+    <%- include('../../include/_js') %>
+  </body>
+</html>

@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cập nhật thông tin banner - Shop Phone Admin</title>
-    <%- include('../include/_css') %>
+    <title>Cập nhật thông tin danh mục - Shop Phone Admin</title>
+    <%- include('../../include/_css') %>
   </head>
 
   <body class="sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
       <!-- Navbar -->
-      <%- include('../include/_header') %>
+      <%- include('../../include/_header') %>
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <%- include('../include/_sidebar') %>
+      <%- include('../../include/_sidebar') %>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -23,11 +23,11 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Cập nhật thông tin banner</h1>
+                <h1>Cập nhật thông tin danh mục</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item active"><a href="/banners">Banner</a></li>
+                  <li class="breadcrumb-item active"><a href="/categories">Danh mục</a></li>
                   <li class="breadcrumb-item active">Cập nhật</li>
                 </ol>
               </div>
@@ -54,10 +54,10 @@
     
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="url" class="form-label fw-bold">
-                        Link hình ảnh <span class="text-danger">*</span>
+                      <label for="name" class="form-label fw-bold">
+                        Tên danh mục <span class="text-danger">*</span>
                       </label>
-                      <input type="text" class="form-control" id="url" name="url" value="<%= banner.url %>"/>
+                      <input type="text" class="form-control" id="name" name="name" value="<%= category.name %>"/>
                     </div>
                   </div>
     
@@ -67,8 +67,8 @@
                         Chế độ hiển thị <span class="text-danger">*</span>
                       </label>
                       <select class="form-select" id="status" name="status" required>
-                        <option value="1" <%= banner.status && 'selected' %>>Công khai</option>
-                        <option value="0" <%= !banner.status && 'selected' %>>Riêng tư</option>
+                        <option value="1" <%= category.status && 'selected' %>>Công khai</option>
+                        <option value="0" <%= !category.status && 'selected' %>>Riêng tư</option>
                       </select>
                     </div>
                   </div>
@@ -81,9 +81,9 @@
       </div>
       <!-- /.content-wrapper -->
 
-      <%- include('../include/_footer') %>
+      <%- include('../../include/_footer') %>
     </div>
 
-    <%- include('../include/_js') %>
+    <%- include('../../include/_js') %>
   </body>
 </html>

@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Thêm mới thương hiệu - Shop Phone Admin</title>
-    <%- include('../include/_css') %>
+    <title>Cập nhật thông tin thương hiệu - Shop Phone Admin</title>
+    <%- include('../../include/_css') %>
   </head>
 
   <body class="sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
       <!-- Navbar -->
-      <%- include('../include/_header') %>
+      <%- include('../../include/_header') %>
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <%- include('../include/_sidebar') %>
+      <%- include('../../include/_sidebar') %>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -23,12 +23,12 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Thêm mới thương hiệu</h1>
+                <h1>Cập nhật thông tin thương hiệu</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item active"><a href="/brands">Thương hiệu</a></li>
-                  <li class="breadcrumb-item active">Thêm mới</li>
+                  <li class="breadcrumb-item active">Cập nhật</li>
                 </ol>
               </div>
             </div>
@@ -40,29 +40,35 @@
         <section class="content">
           <div class="card">
             <div class="card-body">
+              <% if (success.length > 0) { %>
+                <div class="col-12">
+                  <div class="alert alert-success"><%= success %></div>
+                </div>
+              <% } %>
+    
               <form method="POST">
                 <div class="d-flex flex-column gap-4">
                   <div class="col-12 d-flex justify-content-end">
-                    <input class="btn btn-success" type="submit" value="Tạo mới" />
+                    <input class="btn btn-success" type="submit" value="Cập nhật" />
                   </div>
-
+    
                   <div class="col-12">
                     <div class="form-group">
                       <label for="name" class="form-label fw-bold">
                         Tên thương hiệu <span class="text-danger">*</span>
                       </label>
-                      <input type="text" class="form-control" id="name" name="name" />
+                      <input type="text" class="form-control" id="name" name="name" value="<%= brand.name %>"/>
                     </div>
                   </div>
-
+    
                   <div class="col-12">
                     <div class="form-group">
                       <label for="status" class="form-label fw-bold">
                         Chế độ hiển thị <span class="text-danger">*</span>
                       </label>
                       <select class="form-select" id="status" name="status" required>
-                        <option value="1">Công khai</option>
-                        <option value="0">Riêng tư</option>
+                        <option value="1" <%= brand.status && 'selected' %>>Công khai</option>
+                        <option value="0" <%= !brand.status && 'selected' %>>Riêng tư</option>
                       </select>
                     </div>
                   </div>
@@ -75,9 +81,9 @@
       </div>
       <!-- /.content-wrapper -->
 
-      <%- include('../include/_footer') %>
+      <%- include('../../include/_footer') %>
     </div>
 
-    <%- include('../include/_js') %>
+    <%- include('../../include/_js') %>
   </body>
 </html>

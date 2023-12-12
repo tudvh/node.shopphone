@@ -69,11 +69,13 @@ exports.index = async (req, res) => {
   const totalProducts = await Product.countDocuments(query)
   const totalPages = Math.ceil(totalProducts / limit)
 
-  const products = await Product.find(query).sort(sortOptions).skip(skip).limit(limit)
-  const categories = await Category.find().sort({ _id: 'desc' })
-  const brands = await Brand.find().sort({ _id: 'desc' })
+  const [products, categories, brands] = await Promise.all([
+    Product.find(query).sort(sortOptions).skip(skip).limit(limit),
+    Category.find().sort({ _id: 'desc' }),
+    Brand.find().sort({ _id: 'desc' }),
+  ])
 
-  res.render('product/index', {
+  res.render('pages/product/index', {
     page: 'products',
     products,
     categories,
@@ -89,78 +91,104 @@ exports.index = async (req, res) => {
   })
 }
 
-// exports.create = async (req, res) => {
-//   res.render('brand/create', { page: 'brands', error: req.flash('error') })
-// }
+exports.create = async (req, res) => {
+  const [categories, brands] = await Promise.all([
+    Category.find().sort({ _id: 'desc' }),
+    Brand.find().sort({ _id: 'desc' }),
+  ])
 
-// exports.store = async (req, res) => {
-//   const { name, status } = req.body
+  res.render('pages/product/create', {
+    page: 'products',
+    categories,
+    brands,
+    error: req.flash('error'),
+  })
+}
 
-//   const brand = new Brand({ name, status })
+exports.store = async (req, res) => {
+  const { name, categoryId, brandId, price, imageUrl, status } = req.body
 
-//   brand
-//     .save()
-//     .then(() => {
-//       req.flash('success', 'Thêm thương hiệu thành công')
-//       res.redirect('/brands')
-//     })
-//     .catch(err => {
-//       const message = err.message || 'Có lỗi trong lúc thêm thương hiệu. Vui lòng thử lại'
-//       req.flash('error', message)
-//       res.redirect('back')
-//     })
-// }
+  const [category, brand] = await Promise.all([
+    Category.findOne({ _id: categoryId }),
+    Brand.findOne({ _id: brandId }),
+  ])
 
-// exports.edit = async (req, res) => {
-//   if (!req.params.id) {
-//     req.flash('error', 'Không tìm thấy thương hiệu')
-//     res.redirect('/brands')
-//   }
-//   const id = req.params.id
+  const product = new Product({ name, category, brand, price, imageUrl, status })
 
-//   Brand.findById(id)
-//     .then(brand => {
-//       if (!brand) {
-//         req.flash('error', 'Không tìm thấy thương hiệu')
-//         res.redirect('/brands')
-//       } else {
-//         res.render('brand/edit', {
-//           page: 'brands',
-//           brand,
-//           success: req.flash('success'),
-//           error: req.flash('error'),
-//         })
-//       }
-//     })
-//     .catch(err => {
-//       const message = err.message || 'Lỗi máy chủ'
-//       req.flash('error', message)
-//       res.redirect('/brands')
-//     })
-// }
+  product
+    .save()
+    .then(() => {
+      req.flash('success', 'Thêm sản phẩm thành công')
+      res.redirect('/products')
+    })
+    .catch(err => {
+      const message = err.message || 'Có lỗi trong lúc thêm sản phẩm. Vui lòng thử lại'
+      req.flash('error', message)
+      res.redirect('back')
+    })
+}
 
-// exports.update = async (req, res) => {
-//   const { name, status } = req.body
+exports.edit = async (req, res) => {
+  if (!req.params.id) {
+    req.flash('error', 'Không tìm thấy sản phẩm')
+    res.redirect('/brands')
+  }
+  const id = req.params.id
 
-//   if (!req.params.id) {
-//     req.flash('error', 'Không tìm thấy thương hiệu')
-//     res.redirect('/brands')
-//   }
-//   const id = req.params.id
+  try {
+    const [product, categories, brands] = await Promise.all([
+      Product.findById(id),
+      Category.find().sort({ _id: 'desc' }),
+      Brand.find().sort({ _id: 'desc' }),
+    ])
 
-//   Brand.findByIdAndUpdate(id, { name, status })
-//     .then(data => {
-//       if (!data) {
-//         req.flash('error', 'Không tìm thấy thương hiệu')
-//         res.redirect('/brands')
-//       } else {
-//         req.flash('success', 'Cập nhật thành công')
-//         res.redirect(`/brands/${id}/edit`)
-//       }
-//     })
-//     .catch(err => {
-//       const message = err.message || 'Lỗi máy chủ'
-//       req.flash('error', message)
-//       res.redirect('/brands')
-//     })
-// }
+    if (!product) {
+      req.flash('error', 'Không tìm thấy sản phẩm')
+      res.redirect('/products')
+    } else {
+      res.render('pages/product/edit', {
+        page: 'products',
+        product,
+        categories,
+        brands,
+        success: req.flash('success'),
+        error: req.flash('error'),
+      })
+    }
+  } catch {
+    const message = err.message || 'Lỗi máy chủ'
+    req.flash('error', message)
+    res.redirect('/products')
+  }
+}
+
+exports.update = async (req, res) => {
+  const { name, categoryId, brandId, price, imageUrl, status } = req.body
+
+  if (!req.params.id) {
+    req.flash('error', 'Không tìm thấy sản phẩm')
+    res.redirect('/products')
+  }
+  const id = req.params.id
+
+  const [category, brand] = await Promise.all([
+    Category.findOne({ _id: categoryId }),
+    Brand.findOne({ _id: brandId }),
+  ])
+
+  Product.findByIdAndUpdate(id, { name, category, brand, price, imageUrl, status })
+    .then(data => {
+      if (!data) {
+        req.flash('error', 'Không tìm thấy sản phẩm')
+        res.redirect('/products')
+      } else {
+        req.flash('success', 'Cập nhật thành công')
+        res.redirect(`/products/${id}/edit`)
+      }
+    })
+    .catch(err => {
+      const message = err.message || 'Lỗi máy chủ'
+      req.flash('error', message)
+      res.redirect('/products')
+    })
+}
