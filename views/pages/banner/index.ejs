@@ -81,7 +81,13 @@
                         <td>
                           <img src="<%= banner.url %>" style="height: 80px; border-radius: 5px" />
                         </td>
-                        <td><%= banner.status ? 'Công khai' : 'Riêng tư' %></td>
+                        <td>
+                          <% if (banner.status) { %>
+                          <div class="badge text-bg-success">Công khai</div>
+                          <% } else { %>
+                          <div class="badge text-bg-secondary">Riêng tư</div>
+                          <% } %>
+                        </td>
                         <td><%= banner.created_at %></td>
                         <td>
                           <a

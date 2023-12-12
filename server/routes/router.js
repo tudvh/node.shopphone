@@ -9,6 +9,7 @@ const bannerController = require('../controller/bannerController')
 const categoryController = require('../controller/categoryController')
 const brandController = require('../controller/brandController')
 const productController = require('../controller/productController')
+const customerController = require('../controller/customerController')
 
 route.get('/', authMiddleware, homeController.home)
 
@@ -47,5 +48,10 @@ route.get('/products/create', authMiddleware, productController.create)
 route.post('/products/create', authMiddleware, productController.store)
 route.get('/products/:id/edit', authMiddleware, productController.edit)
 route.post('/products/:id/edit', authMiddleware, productController.update)
+
+// Customer
+route.get('/customers', authMiddleware, customerController.index)
+route.post('/customers/:id/look', authMiddleware, customerController.look)
+route.post('/customers/:id/un-look', authMiddleware, customerController.unLook)
 
 module.exports = route

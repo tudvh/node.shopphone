@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sản phẩm - Shop Phone Admin</title>
+    <title>Khách hàng - Shop Phone Admin</title>
     <%- include('../../include/_css') %>
     <style>
       th,
@@ -29,11 +29,11 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Danh sách sản phẩm</h1>
+                <h1>Danh sách Khách hàng</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item active">Sản phẩm</li>
+                  <li class="breadcrumb-item active">Khách hàng</li>
                 </ol>
               </div>
             </div>
@@ -52,17 +52,6 @@
                 </div>
                 <% } %>
 
-                <div>
-                  <a
-                    href="/products/create"
-                    class="btn btn-success d-flex justify-content-center align-items-center gap-2 ms-auto"
-                    style="width: fit-content"
-                  >
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Thêm mới</span>
-                  </a>
-                </div>
-
                 <form class="row gap-3 gap-md-0">
                   <div class="col-12 col-md-auto">
                     <input
@@ -74,33 +63,17 @@
                     />
                   </div>
                   <div class="col-12 col-md-auto">
-                    <select class="form-select" name="searchCategory">
-                      <option value="">---Tất cả danh mục---</option>
-                      <% categories.forEach(category => { %>
-                      <option value="<%= category._id %>" <%= searchCategory == category._id && 'selected' %>><%= category.name %></option>
-                      <% }) %>
-                    </select>
-                  </div>
-                  <div class="col-12 col-md-auto">
-                    <select class="form-select" name="searchBrand">
-                      <option value="">---Tất cả thương hiệu---</option>
-                      <% brands.forEach(brand => { %>
-                      <option value="<%= brand._id %>" <%= searchBrand == brand._id && 'selected' %>><%= brand.name %></option>
-                      <% }) %>
-                    </select>
-                  </div>
-                  <div class="col-12 col-md-auto">
-                    <select class="form-select" name="sort">
-                      <option value="date" <%= sort == 'date' && 'selected' %>>Mới nhất</option>
-                      <option value="price-desc" <%= sort == 'price-desc' && 'selected' %>>Giá cao đến thấp</option>
-                      <option value="price-esc" <%= sort == 'price-esc' && 'selected' %>>Giá thấp đến cao</option>                      
+                    <select class="form-select" name="searchStatus">
+                      <option value="">---Tât cả trạng thái---</option>
+                      <option value="1" <%= searchStatus == '1' ? 'selected' : '' %>>Đang hoạt động</option>
+                      <option value="0" <%= searchStatus == '0' ? 'selected' : '' %>>Đã khóa</option>
                     </select>
                   </div>
                   <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-success">Tìm kiếm</button>
                   </div>
                   <div class="col-12 col-md-auto">
-                    <a href="/products" class="btn btn-primary">Làm mới</a>
+                    <a href="/customers" class="btn btn-primary">Làm mới</a>
                   </div>
                 </form>
 
@@ -109,44 +82,52 @@
                     <thead class="table-secondary">
                       <tr>
                         <th>Id</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Danh mục</th>
-                        <th>Thương hiệu</th>
-                        <th>Đơn giá</th>
+                        <th>Avatar</th>
+                        <th>Tên khách hàng</th>
+                        <th>Email</th>
                         <th>Chế độ hiển thị</th>
                         <th>Hành động</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% products.forEach(product => { %>
-                      <tr>
-                        <th><%= product._id %></th>
+                      <% customers.forEach(customer => { %>
+                      <tr id="tr-<%= customer._id %>">
+                        <th><%= customer._id %></th>
                         <td>
                           <img
-                            src="<%= product.imageUrl %>"
-                            style="height: 100px; border-radius: 5px"
+                            src="<%= customer.avatarUrl || '/dist/img/user-avatar-default.png' %>"
+                            style="height: 80px; border-radius: 50%"
                           />
                         </td>
-                        <td><%= product.name %></td>
-                        <td><%= product.category.name %></td>
-                        <td><%= product.brand.name %></td>
-                        <td><%= product.price.toLocaleString('vi-VI') %>đ</td>
+                        <td><%= customer.fullName %></td>
+                        <td><%= customer.email %></td>
                         <td>
-                          <% if (product.status) { %>
-                          <div class="badge text-bg-success">Công khai</div>
+                          <% if (customer.status) { %>
+                          <div class="badge text-bg-success">Đang hoạt động</div>
                           <% } else { %>
-                          <div class="badge text-bg-secondary">Riêng tư</div>
+                          <div class="badge text-bg-secondary">Đã khóa</div>
                           <% } %>
                         </td>
                         <td>
-                          <a
-                            class="btn btn-primary"
-                            title="Chỉnh sửa"
-                            href="/products/<%= product._id %>/edit"
+                          <% if (customer.status) { %>
+                          <button
+                            type="button"
+                            class="btn btn-danger"
+                            title="Khóa tài khoản"
+                            onclick="lookCustomer('<%= customer._id %>')"
                           >
-                            <i class="fa-regular fa-pen-to-square"></i>
-                          </a>
+                            <i class="fa-regular fa-lock"></i>
+                          </button>
+                          <% } else { %>
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            title="Mở khóa tài khoản"
+                            onclick="unLookCustomer('<%= customer._id %>')"
+                          >
+                            <i class="fa-regular fa-lock-open"></i>
+                          </button>
+                          <% } %>
                         </td>
                       </tr>
                       <% }) %>
@@ -217,5 +198,77 @@
     }
 
     location.href = currentHref
+  }
+
+  const lookCustomer = async id => {
+    const confirmResult = await Swal.fire({
+      title: 'Bạn chắc chứ?',
+      text: 'Bạn có chắc muốn khóa tài khoản này không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Chắc chắn!',
+      cancelButtonText: 'Hủy!',
+    })
+
+    if (confirmResult.isConfirmed) {
+      const trElement = document.querySelector(`#tr-${id}`)
+
+      try {
+        const response = await $.ajax({
+          type: 'POST',
+          url: `/customers/${id}/look`,
+        })
+
+        await Swal.fire({
+          icon: 'success',
+          title: response.message,
+          showConfirmButton: true,
+        })
+
+        trElement.innerHTML = response.data
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: error.message,
+          showConfirmButton: false,
+        })
+      }
+    }
+  }
+
+  const unLookCustomer = async id => {
+    const confirmResult = await Swal.fire({
+      title: 'Bạn chắc chứ?',
+      text: 'Bạn có chắc muốn mở khóa tài khoản này không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Chắc chắn!',
+      cancelButtonText: 'Hủy!',
+    })
+
+    if (confirmResult.isConfirmed) {
+      const trElement = document.querySelector(`#tr-${id}`)
+
+      try {
+        const response = await $.ajax({
+          type: 'POST',
+          url: `/customers/${id}/un-look`,
+        })
+
+        await Swal.fire({
+          icon: 'success',
+          title: response.message,
+          showConfirmButton: true,
+        })
+
+        trElement.innerHTML = response.data
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: error.message,
+          showConfirmButton: false,
+        })
+      }
+    }
   }
 </script>

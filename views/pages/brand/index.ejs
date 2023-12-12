@@ -79,7 +79,13 @@
                       <tr>
                         <th><%= brand._id %></th>
                         <td><%= brand.name %></td>
-                        <td><%= brand.status ? 'Công khai' : 'Riêng tư' %></td>
+                        <td>
+                          <% if (brand.status) { %>
+                          <div class="badge text-bg-success">Công khai</div>
+                          <% } else { %>
+                          <div class="badge text-bg-secondary">Riêng tư</div>
+                          <% } %>
+                        </td>
                         <td><%= brand.created_at %></td>
                         <td>
                           <a

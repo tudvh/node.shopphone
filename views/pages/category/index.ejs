@@ -79,7 +79,13 @@
                       <tr>
                         <th><%= category._id %></th>
                         <td><%= category.name %></td>
-                        <td><%= category.status ? 'Công khai' : 'Riêng tư' %></td>
+                        <td>
+                          <% if (category.status) { %>
+                          <div class="badge text-bg-success">Công khai</div>
+                          <% } else { %>
+                          <div class="badge text-bg-secondary">Riêng tư</div>
+                          <% } %>
+                        </td>
                         <td><%= category.created_at %></td>
                         <td>
                           <a
