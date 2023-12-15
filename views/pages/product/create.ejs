@@ -42,6 +42,12 @@
             <div class="card-body">
               <form method="POST">
                 <div class="d-flex flex-column gap-4">
+                  <% if (error.length > 0) { %>
+                  <div class="col-12">
+                    <div class="alert alert-danger"><%= error %></div>
+                  </div>
+                  <% } %>
+
                   <div class="col-12 d-flex justify-content-end">
                     <input class="btn btn-success" type="submit" value="Tạo mới" />
                   </div>
@@ -95,7 +101,43 @@
                       <label for="imageUrl" class="form-label fw-bold">
                         Link hình ảnh <span class="text-danger">*</span>
                       </label>
-                      <input type="text" class="form-control" id="imageUrl" name="imageUrl" />
+                      <div class="d-flex flex-column gap-2">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="imageUrl"
+                          name="imageUrls[]"
+                          autocomplete="off"
+                        />
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="imageUrl"
+                          name="imageUrls[]"
+                          autocomplete="off"
+                        />
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="imageUrl"
+                          name="imageUrls[]"
+                          autocomplete="off"
+                        />
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="imageUrl"
+                          name="imageUrls[]"
+                          autocomplete="off"
+                        />
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="imageUrl"
+                          name="imageUrls[]"
+                          autocomplete="off"
+                        />
+                      </div>
                     </div>
                   </div>
 

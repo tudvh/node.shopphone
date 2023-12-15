@@ -11,22 +11,24 @@ const Brand = require('../model/Brand')
 //   for (i = 0; i < productLength; i++) {
 //     const product = products[i]
 
-//     let newCategory = await Category.findOne({ name: product.category })
-//     if (!newCategory) {
-//       newCategory = new Category({ name: product.category })
+//     let category_id = await Category.findOne({ name: product.category })
+//     if (!category_id) {
+//       const newCategory = new Category({ name: product.category })
 //       await newCategory.save()
+//       category_id = newCategory._id
 //     }
 
-//     let newBrand = await Brand.findOne({ name: product.brand })
-//     if (!newBrand) {
-//       newBrand = new Brand({ name: product.brand })
+//     let brand_id = await Brand.findOne({ name: product.brand })
+//     if (!brand_id) {
+//       const newBrand = new Brand({ name: product.brand })
 //       await newBrand.save()
+//       brand_id = newBrand._id
 //     }
 
 //     newProducts.push({
 //       name: product.name,
-//       category: newCategory,
-//       brand: newBrand,
+//       category: category_id,
+//       brand: brand_id,
 //       price: product.price,
 //       imageUrl: product.image_url,
 //     })
@@ -49,10 +51,10 @@ exports.index = async (req, res) => {
     query.name = { $regex: new RegExp(searchKey, 'i') }
   }
   if (searchCategory) {
-    query['category._id'] = searchCategory
+    query['category'] = searchCategory
   }
   if (searchBrand) {
-    query['brand._id'] = searchBrand
+    query['brand'] = searchBrand
   }
 
   let sortOptions
@@ -70,7 +72,12 @@ exports.index = async (req, res) => {
   const totalPages = Math.ceil(totalProducts / limit)
 
   const [products, categories, brands] = await Promise.all([
-    Product.find(query).sort(sortOptions).skip(skip).limit(limit),
+    Product.find(query)
+      .sort(sortOptions)
+      .populate('category')
+      .populate('brand')
+      .skip(skip)
+      .limit(limit),
     Category.find().sort({ _id: 'desc' }),
     Brand.find().sort({ _id: 'desc' }),
   ])
@@ -93,8 +100,8 @@ exports.index = async (req, res) => {
 
 exports.create = async (req, res) => {
   const [categories, brands] = await Promise.all([
-    Category.find().sort({ _id: 'desc' }),
-    Brand.find().sort({ _id: 'desc' }),
+    Category.find({ status: true }).sort({ _id: 'desc' }),
+    Brand.find({ status: true }).sort({ _id: 'desc' }),
   ])
 
   res.render('pages/product/create', {
@@ -106,14 +113,16 @@ exports.create = async (req, res) => {
 }
 
 exports.store = async (req, res) => {
-  const { name, categoryId, brandId, price, imageUrl, status } = req.body
+  const { name, categoryId, brandId, price, imageUrls, status } = req.body
 
-  const [category, brand] = await Promise.all([
-    Category.findOne({ _id: categoryId }),
-    Brand.findOne({ _id: brandId }),
-  ])
-
-  const product = new Product({ name, category, brand, price, imageUrl, status })
+  const product = new Product({
+    name,
+    category: categoryId,
+    brand: brandId,
+    price,
+    imageUrl: imageUrls.map(url => url.trim()).filter(url => url),
+    status,
+  })
 
   product
     .save()
@@ -138,8 +147,8 @@ exports.edit = async (req, res) => {
   try {
     const [product, categories, brands] = await Promise.all([
       Product.findById(id),
-      Category.find().sort({ _id: 'desc' }),
-      Brand.find().sort({ _id: 'desc' }),
+      Category.find({ status: true }).sort({ _id: 'desc' }),
+      Brand.find({ status: true }).sort({ _id: 'desc' }),
     ])
 
     if (!product) {
@@ -163,7 +172,7 @@ exports.edit = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  const { name, categoryId, brandId, price, imageUrl, status } = req.body
+  const { name, categoryId, brandId, price, imageUrls, status } = req.body
 
   if (!req.params.id) {
     req.flash('error', 'Không tìm thấy sản phẩm')
@@ -171,12 +180,14 @@ exports.update = async (req, res) => {
   }
   const id = req.params.id
 
-  const [category, brand] = await Promise.all([
-    Category.findOne({ _id: categoryId }),
-    Brand.findOne({ _id: brandId }),
-  ])
-
-  Product.findByIdAndUpdate(id, { name, category, brand, price, imageUrl, status })
+  Product.findByIdAndUpdate(id, {
+    name,
+    category: categoryId,
+    brand: brandId,
+    price,
+    imageUrl: imageUrls.map(url => url.trim()).filter(url => url),
+    status,
+  })
     .then(data => {
       if (!data) {
         req.flash('error', 'Không tìm thấy sản phẩm')

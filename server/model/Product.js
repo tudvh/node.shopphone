@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const Category = require('./Category')
-const Brand = require('./Brand')
 
 var schema = new mongoose.Schema({
   name: {
@@ -8,11 +6,13 @@ var schema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: Category.schema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'category',
     required: true,
   },
   brand: {
-    type: Brand.schema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'brand',
     required: true,
   },
   price: {
@@ -20,7 +20,14 @@ var schema = new mongoose.Schema({
     required: true,
   },
   imageUrl: {
-    type: String,
+    type: [String],
+    required: true,
+    validate: {
+      validator: function (array) {
+        return array.length > 0
+      },
+      message: 'Phải có ít nhất một Image url',
+    },
     required: true,
   },
   status: {

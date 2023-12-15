@@ -45,6 +45,12 @@
                 <div class="alert alert-success"><%= success %></div>
               </div>
               <% } %>
+              <!-- --- -->
+              <% if (error.length > 0) { %>
+              <div class="col-12">
+                <div class="alert alert-danger"><%= error %></div>
+              </div>
+              <% } %>
 
               <form method="POST">
                 <div class="d-flex flex-column gap-4">
@@ -107,7 +113,13 @@
                       <label for="imageUrl" class="form-label fw-bold">
                         Link hình ảnh <span class="text-danger">*</span>
                       </label>
-                      <input type="text" class="form-control" id="imageUrl" name="imageUrl" value="<%= product.imageUrl %>" />
+                      <div class="d-flex flex-column gap-2">
+                        <input type="text" class="form-control" id="imageUrl" name="imageUrls[]" value="<%= product.imageUrl[0] %>" autocomplete="off" />
+                        <input type="text" class="form-control" id="imageUrl" name="imageUrls[]" value="<%= product.imageUrl[1] %>" autocomplete="off" />
+                        <input type="text" class="form-control" id="imageUrl" name="imageUrls[]" value="<%= product.imageUrl[2] %>" autocomplete="off" />
+                        <input type="text" class="form-control" id="imageUrl" name="imageUrls[]" value="<%= product.imageUrl[3] %>" autocomplete="off" />
+                        <input type="text" class="form-control" id="imageUrl" name="imageUrls[]" value="<%= product.imageUrl[4] %>" autocomplete="off" />
+                      </div>
                     </div>
                   </div>
 
